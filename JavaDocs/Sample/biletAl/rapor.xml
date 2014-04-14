@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<book lang="tr">
+  <title>Veritabanı Yönetim Sistemleri Projesi</title>
+
+  <bookinfo>
+    <subtitle>Proje Başlığı</subtitle>
+
+    <authorgroup>
+      <corpauthor>Grup adı</corpauthor>
+
+      <author>
+        <firstname>Önadı</firstname>
+
+        <surname>Soyadı</surname>
+
+        <lineage>No (Şube)</lineage>
+      </author>
+
+      <author>
+        <firstname>Önadı</firstname>
+
+        <surname>Soyadı</surname>
+
+        <lineage>No (Şube)</lineage>
+      </author>
+    </authorgroup>
+
+    <date>Rapor teslim tarihi</date>
+  </bookinfo>
+
+  <preface>
+    <title>Genel Bilgiler</title>
+
+    <para>Bu bölüm raporu hazırlamanızda yardımcı olması amacıyla yazılmıştır.
+    Raporu hazırlarken bu dosya üzerinde değişiklikler yapmanız ve eklemek
+    istediğiniz rapor elemanını aşağıda verilen örnekleri inceleyerek
+    (isterseniz kopyalayıp yapıştırarak) oluşturmanız önerilir. Raporun son
+    halinde bu bölüm silinmiş olmalıdır.</para>
+
+    <para>Vurgulamak istediğiniz yerleri <emphasis>bu örnekteki
+    gibi</emphasis> işaretleyebilirsiniz.<footnote>
+        <para>Dipnotları bu şekilde ekleyebilirsiniz.</para>
+      </footnote> Web sayfası adresi yazmak için <ulink
+    url="???">http://www.foobar.com/</ulink> örneğini, e-posta adresi yazmak
+    için <email>webmaster@foobar.com</email> örneğini
+    kullanabilirsiniz.</para>
+
+    <para>Sırasız liste oluşturmak için aşağıdaki örnekten
+    yararlanabilirsiniz.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Bilgisayar Mühendisliği</para>
+      </listitem>
+
+      <listitem>
+        <para>Elektrik Mühendisliği</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Elektrik Mühendisliği</para>
+          </listitem>
+
+          <listitem>
+            <para>Kontrol Mühendisliği</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+
+      <listitem>
+        <para>Elektronik Mühendisliği</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Elektronik Mühendisliği</para>
+          </listitem>
+
+          <listitem>
+            <para>Telekomünikasyon Mühendisliği</para>
+          </listitem>
+        </itemizedlist>
+      </listitem>
+    </itemizedlist>
+
+    <para>Sıralı liste oluşturmak için aşağıdaki örnekten yararlanabilirsiniz.
+    Numaralama şeklini liste elemanının <property>numeration</property>
+    niteliğinden seçebilirsiniz.</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Bilgisayar Mühendisliği</para>
+      </listitem>
+
+      <listitem>
+        <para>Elektrik Mühendisliği<orderedlist numeration="loweralpha">
+            <listitem>
+              <para>Elektrik Mühendisliği</para>
+            </listitem>
+
+            <listitem>
+              <para>Kontrol Mühendisliği</para>
+            </listitem>
+          </orderedlist></para>
+      </listitem>
+
+      <listitem>
+        <para>Elektronik Mühendisliği</para>
+
+        <orderedlist numeration="loweralpha">
+          <listitem>
+            <para>Elektronik Mühendisliği</para>
+          </listitem>
+
+          <listitem>
+            <para>Telekomünikasyon Mühendisliği</para>
+          </listitem>
+        </orderedlist>
+      </listitem>
+    </orderedlist>
+
+    <para>Tanım listesi oluşturmak için aşağıdaki örnekten
+    yararlanabilirsiniz.</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>Bilgisayar Mühendisliği</term>
+
+        <listitem>
+          <para>Bu bölümün mezunları <quote>Bilgisayar Mühendisi</quote>
+          ünvanını alırlar.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Elektrik Mühendisliği</term>
+
+        <listitem>
+          <para>Bu bölümün mezunları tamamladıkları programa göre
+          <quote>Elektrik Mühendisi</quote> ya da <quote>Kontrol
+          Mühendisi</quote> ünvanını alırlar.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Elektronik Mühendisliği</term>
+
+        <listitem>
+          <para>Bu bölümün mezunları tamamladıkları programa göre
+          <quote>Elektronik Mühendisi</quote> ya da <quote>Telekomünikasyon
+          Mühendisi</quote> ünvanını alırlar.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Şekil eklemek için aşağıdaki örnekten yararlanabilirsiniz (bu
+    dosyayla aynı klasörde <filename>sekil.png</filename> isimli bir dosya
+    bulunduğunu varsayarak). Şekillere bir başlık vermeniz gerektiğine dikkat
+    edin. Şeklin boyutlarını değiştirmek için şekil elemanının
+    <property>width</property>, <property>height</property> ve
+    <property>scale</property> niteliklerini değiştirebilirsiniz.</para>
+
+    <figure>
+      <title>Veritabanının varlık-ilişki diyagramı.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="sekil.png" scale="50" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>Ekran görüntüleri şekil olarak eklenebilecekleri gibi aşağıdaki
+    örnekteki yöntemle ekran görüntüsü olarak da eklenebilirler. Bu durumda
+    ekran görüntüsüne hem başlık verebilir hem de bazı notlar
+    ekleyebilirsiniz.</para>
+
+    <figure>
+      <title>Uygulamanın genel ayarlar sayfası.</title>
+
+      <screenshot>
+        <screeninfo>Kırmızı işaretlenmiş alanlar boş
+        bırakılmamalıdır.</screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="ekran.png" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>Kod dökümü vermek isterseniz aşağıdaki örnekten yararlanabilirsiniz.
+    Programlama dilini döküm elemanının <property>language</property>
+    niteliğinde belirtirseniz kod uygun şekilde
+    renklendirilecektir.<programlisting language="C++">#include &lt;iostream&gt;
+
+using namespace std;
+
+int main(void)
+{
+    cout &lt;&lt; "Hello, world!\n";
+    return 0;
+}</programlisting></para>
+
+    <para>Başka bir kaynaktan aldığınız bilgiye referans vermek için referansı
+    cümle ya da bu paragrafta olduğu gibi paragraf sonunda belirtin. Bütün
+    referanslarınızda (web sayfaları dahil) en azından başlık, yazar ve yıl
+    bilgilerinin bulunmasına özen gösterin. Referans verirken özgün kaynaktan
+    birebir alıntı yapmamalı, kaynakta verilen bilgiyi kendi sözlerinizle
+    aktarmalısınız. <xref linkend="OWL06" /></para>
+
+    <para>Alıntı yapmak istediğiniz yerlerde ise alıntıyı aşağıdaki örnekte
+    olduğu gibi açık şekilde belirtmelisiniz:</para>
+
+    <blockquote>
+      <attribution>E.F.Codd <xref linkend="COD70" /></attribution>
+
+      <para>Future users of large data banks must be protected from having to
+      know how the data is organized in the machine (the internal
+      representation). A prompting service which supplies such information is
+      not a satisfactory solution. Activities of users at terminals and most
+      application programs should remain unaffected when the internal
+      representation of data is changed and even when some aspects of the
+      external representation are changed. Changes in data representation will
+      often be needed as' a result of changes in query, update, and report
+      traffic and natural growth in the types of stored information.</para>
+    </blockquote>
+
+    <para>Referanslar raporun sonunda yer alacaktır. Bu belgenin sonunda örnek
+    referansları görebilirsiniz.</para>
+  </preface>
+
+  <chapter>
+    <title>Giriş</title>
+
+    <section>
+      <title>Proje Tanımı</title>
+
+      <para>Projenizin tanımını yapın ve kapsamını açıklayın.</para>
+    </section>
+
+    <section>
+      <title>Geliştirme ve Çalıştırma Ortamı</title>
+
+      <para>Projenin hangi dil, hangi veritabanı sunucusu v.b. ile
+      geliştirildiğini açıklayın.</para>
+
+      <para>Projenin çalışacağı makinada hangi işletim sistemi, hangi tarayıcı
+      v.b. hangi yazılım bileşenlerinin <emphasis>BULUNMASI
+      GEREKTİĞİNİ</emphasis> (sizin kullandıklarınızı değil) açıklayın.</para>
+    </section>
+
+    <section>
+      <title>İş Bölüşümü</title>
+
+      <para>Hangi grup elemanının projenin hangi kısmını yaptığını
+      açıklayın.</para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Kurulum</title>
+
+    <para>Projenizin nasıl kurulacağını adım adım açıklayın. Yalnızca
+    yazılımların nasıl kurulacağını değil, örnek veritabanının nasıl
+    oluşturulacağını da yazmayı unutmayın.</para>
+  </chapter>
+
+  <chapter>
+    <title>Kullanım Kılavuzu</title>
+
+    <para>Projenizin nasıl kullanılacağını sistemli bir şekilde ve gerekli
+    yerlerde ekran görüntüleriyle açıklayın.</para>
+  </chapter>
+
+  <chapter>
+    <title>Teknik Kılavuz</title>
+
+    <section>
+      <title>Veritabanı Tasarımı</title>
+
+      <para>Projenizde yaptığınız veritabanı tasarımını varlık-ilişki
+      diyagramları yardımıyla açıklayın.</para>
+    </section>
+
+    <section>
+      <title>Yazılım Tasarımı</title>
+
+      <para>Projenizde geliştirdiğiniz kodların düzenini açıklayın. Projeniz
+      hangi kod dosyalarından oluşuyor, bunların birbirleriyle ilişkileri
+      nedir, programlar hangi sırayla çalışıyor vs.</para>
+    </section>
+  </chapter>
+
+  <bibliography>
+    <biblioentry id="OWL06">
+      <title>Avoiding Plagiarism (<ulink
+      url="???">http://owl.english.purdue.edu/owl/resource/589/01/</ulink>)</title>
+
+      <authorgroup>
+        <corpauthor>Purdue OWL</corpauthor>
+      </authorgroup>
+
+      <pubdate>2006</pubdate>
+    </biblioentry>
+
+    <biblioentry id="COD70">
+      <title>A Relational Model of Data for Large Shared Data Banks</title>
+
+      <author>
+        <firstname>E.F.</firstname>
+
+        <surname>Codd</surname>
+      </author>
+
+      <volumenum>13</volumenum>
+
+      <issuenum>6</issuenum>
+
+      <pagenums>377-387</pagenums>
+
+      <publisher>
+        <publishername>Communications of the ACM</publishername>
+      </publisher>
+
+      <pubdate>1970</pubdate>
+    </biblioentry>
+
+    <biblioentry id="DAT04">
+      <title>An Introduction to Database Systems</title>
+
+      <edition>8/e</edition>
+
+      <author>
+        <firstname>Chris J.</firstname>
+
+        <surname>Date</surname>
+      </author>
+
+      <publisher>
+        <publishername>Addison-Wesley</publishername>
+      </publisher>
+
+      <pubdate>2004</pubdate>
+
+      <isbn>0-321-19784-4</isbn>
+    </biblioentry>
+  </bibliography>
+</book>

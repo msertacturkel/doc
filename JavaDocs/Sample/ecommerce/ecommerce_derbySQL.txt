@@ -1,0 +1,40 @@
+
+    create table "APP"."CATEGORIES"(
+        "CATEGORYID" INTEGER not null generated always as identity,
+       "CATEGORY" VARCHAR(20),
+        constraint "CATEGORYID" primary key ("CATEGORYID")
+    );
+
+    create unique index "SQL120208090814350" on "APP"."CATEGORIES"("CATEGORYID");
+
+
+    create table "APP"."ORDERDETAILS"(
+        "ORDERID" INTEGER,
+       "PRODUCTID" INTEGER,
+       "QUANTITY" INTEGER,
+       "PRICE" INTEGER
+    );
+
+
+    create table "APP"."ORDERS"(
+        "ORDERID" INTEGER not null generated always as identity,
+       "CONTACTNAME" VARCHAR(20),
+       "DELIVERYADDRESS" VARCHAR(100),
+       "CCNAME" VARCHAR(20),
+       "CCNUMBER" INTEGER,
+       "CCEXPIRYDATE" VARCHAR(10),
+        constraint "ORDERID" primary key ("ORDERID")
+    );
+
+    create unique index "SQL120208092054540" on "APP"."ORDERS"("ORDERID");
+
+
+    create table "APP"."PRODUCTS"(
+        "PRODUCTID" INTEGER not null generated always as identity,
+       "NAME" VARCHAR(20),
+       "DESCRIPTION" VARCHAR(100),
+       "PRICE" INTEGER,
+        constraint "PRODUCTDID" primary key ("PRODUCTID")
+    );
+
+    create unique index "SQL120208091714420" on "APP"."PRODUCTS"("PRODUCTID");

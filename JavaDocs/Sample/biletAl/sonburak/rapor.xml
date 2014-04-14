@@ -1,0 +1,1718 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" []>
+<book>
+  <title>Veritabanı Yönetim Sistemleri Projesi</title>
+  <bookinfo>
+    <subtitle>BiletAl </subtitle>
+    <authorgroup>
+      <author>
+        <firstname>Burak</firstname>
+        <surname>Dağlı</surname>
+        <lineage> Grup 3 , 040060232, Şule Gündüz Öğüdücü</lineage>
+      </author>
+    </authorgroup>
+    <date>29.12.2011</date>
+  </bookinfo>
+  <preface>
+    <title>Genel Bilgiler</title>
+  </preface>
+  <chapter>
+    <title>Giriş</title>
+    <section>
+      <title>Proje Tanımı</title>
+      <para>BiletAl Projesi, internet kullanıcılarının web ortamında,  farklı illerde olan  çeşitli  başlıklardaki (kültür, sanat, eğitim, spor gibi) etkinliklerin tarih ve yer bilgilerini öğrenebilmelerini ve bilet satın alabilmelerini sağlamak amacıyla düşünülmüş ve hazırlanmıştır. Etkinlik detaylarını öğrenme ve bilet satın alabilmenin yanı sıra kullanıcılar duyuruları takip edebilecek, çeşitli kategorilerde haberleri ve makaleleri görebilecek, bunlara yorum yapabilecek böylece kültür, sanat, spor, müzik hakkında bilgi edinebileceklerdir. Ayrıca siteye üye olabilecekler ve sitede görevli olarak içerik oluşturabileceklerdir. </para>
+      <para>Projenin içerdiği temel özellikler:
+</para>
+      <para>4 farklı tipten kullanıcı olacaktır. Bunlar; ziyaretçi, üye(user),  organizatör(organizer) ve yöneticidir(admin). </para>
+      <para>Sistem üzerindeki kullanıcı tipleri anlatılacak olunursa:
+</para>
+      <para>Ziyaretçi: Sisteme üye olmayan kullanıcılardır. Bu türden kullanıcılar kategoriye,mekana,şehire göre etkinlikleri listeleyebilir,  kontenjanları ve fiyatlarını görebilirler. Duyuruları ve haberleri görebilirler. Tarihte bugün köşesinin inceleyebilirler. Etkinlikler, mekanlar, şehirler hakkında bilgilere ulaşabilirler.
+</para>
+      <para>Üye(User): Bu kullanıcı tipi ziyaretçiden ayrı olarak kişisel bilgilerini veritabanına ekler. Ziyaretçinin sahip olduğu tüm özelliklere sahiptir. Tek farkı eklemiş olduğu Kredi Kartı bilgileri ile bilet satın alabilmesidir. Bunun haricinde aynen ziyaretçi gibi siteye hiçbir ekleme, güncelleme yapamaz, siteden içerik silemez. Sign up panelinden üye olan tüm kullanıcılar “üye” tipinden kullanıcılardır.
+</para>
+      <para>
+Organizatör(Organizer): Organizatör adlı kullanıcı yönetici tarafından sisteme eklenebilir ya da kayıtlı üyenin yönetici tarafından tipi güncellenirken organizatör seçilebilir. Bu tip kullanıcı (organizatör), üyenin yapmış olduğu sorgulamalar ve bilet alımı dışında siteye etkinlik, mekan, şehir, duyuru, yorum, haber ve tarihsel önemi olan bir olay(“Tarihte bugün için içerik”) ekleyebilir. Ancak bu içerikler ile ilgili güncelleme ve silme işlemi yapamaz.
+</para>
+      <para>
+Yönetici(Admin): Yönetici tipinden kullanıcı veritabanına önceden eklenmelidir. Ayrıca yönetici girişi yapıldıktan sonra bir kullanıcı oluştururken veya bir kullanıcı güncellenirken tipi yönetici olarak seçilebilir. Bu tip kullanıcı (yönetici), organizatör tipinden kullanıcın yapmış olduğu sorgulamalar, bilet alımı ve eklemeler dışında  tüm içerikleri güncelleme ve silme yetkisine sahiptir. Ayrıca siteye üye ekleyebilir, üyeleri listeleyip güncelleyebilir, silebilir ve yeni üye tipi oluşturabilir.
+
+</para>
+    </section>
+    <section>
+      <title>Geliştirme ve Çalıştırma Ortamı</title>
+      <para>Proje Java dilinde ve Apache Wicket platformu üzerinde geliştirilmiştir. Belli bölümlerde Ajax kodları da kullanılmıştır. Veri tabanı olarak SQLite JDBC sürücüsü kullanılmıştır. Veritabanı dosyası ve tabloları oluşturulurken Mozilla Firefox eklentisi olan SQLite Manager kullanılmıştır.  Çalışma sırasında Mercurial ile sürüm denetimi yapılmıştır. Tüm çalışmalar Netbeans IDE 7.0.1 &apos;de yapılmıştır.</para>
+      <para>Proje <emphasis>Ubuntu 10.10</emphasis> işletim sistemi yüklü bilgisayarlarda Mozilla Firefox, Chrome, Chromium tarayıcılarında sorunsuz çalışabilmektedir. Projenin Windows 7 işletim sistemi yüklü bilgisayarlarda sorun yaşadığını gözlemledik.</para>
+    </section>
+    <section>
+      <title>İş Bölüşümü</title>
+      <para>Proje önerisi kabul edilip uygulama geliştirmeye başlamadan önce  yapılan ilk adım veritabanının tasarımı olmuştur. Veritabanı tasarımı karşılıklı bilgi alışverişi ve tartışma çerçevesinde kolektif bir biçimde ortaya çıkmıştır. Gerekli tablolar, ilişkiler, birincil ve dış anahtarlar kararlaştırılmıştır. Ardından grup üyeleri kendilerine ait ilgili tabloları oluşturmuş ve uygulama geliştirmeye başlamışlardır.</para>
+      <para>PROJE ÜYELERİ ARASINDA İŞ BÖLÜŞÜMÜ</para>
+      <para><emphasis>1. BURAK DAĞLI</emphasis></para>
+      <para>1.a. Veritabanı tasarımı</para>
+      <para>1.b. Sorumlu olduğu 4 nesne için veritabanında <emphasis> &quot;Event, CategoryEvent, GroupCategory ve Card</emphasis>&quot;  adlı tabloların oluşturulması.</para>
+      <para>1.c. BasePage.java, Application.java, HomePage.java, HomePage.html, HeaderPanel.java, HeaderPanel.html dosyalarını oluşturulması ve içeriklerinin tasarlanması.</para>
+      <para>1.d.  Application.java, HomePage.java, HomePage.html, HeaderPanel.java, HeaderPanel.html dosyalarına sorumlu olduğu sınıflarla ilgili içeriklerin ve linklerin eklenmesi.</para>
+      <para>1.e. Sorumlu olduğu Card nesnesi için  <emphasis>&quot;Cards&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>1.f. Sorumlu olduğu Event nesnesi için <emphasis>&quot;Events&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>1.g. Sorumlu olduğu CategoryEvent nesnesi için <emphasis>&quot;CategoryEvents&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>1.h. Sorumlu olduğu GroupCategory nesnesi için <emphasis>&quot;GroupCategories&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>1.i. Sorumlu olduğu Event nesnesi için <emphasis>&quot;Search&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para><emphasis>2. OZAN TEZCAN</emphasis></para>
+      <para>2.a. Veritabanı tasarımı</para>
+      <para>2.b. Sorumlu olduğu 3 nesne için veritabanında <emphasis>&quot;Announcement, Comment ve GroupVenue</emphasis>&quot;  adlı tabloların oluşturulması.</para>
+      <para>2.c. CSS (style.css) dosyasının oluşturulması.</para>
+      <para>2.d.  Application.java, HomePage.java, HomePage.html, HeaderPanel.java, HeaderPanel.html dosyalarına sorumlu olduğu sınıflarla ilgili içeriklerin ve linklerin eklenmesi. </para>
+      <para>2.e. Sorumlu olduğu Announcement nesnesi için <emphasis>&quot;Announcements&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>2.f. Sorumlu olduğu Comment nesnesi için <emphasis>&quot;Comments&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>2.g. Sorumlu olduğu GroupVenue nesnesi için <emphasis>&quot;GroupVenues&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para><emphasis>3. ECE ÇALIKUŞ</emphasis></para>
+      <para>3.a. Veritabanı tasarımı</para>
+      <para>3.b. Sorumlu olduğu 3 nesne için veritabanında <emphasis>&quot;Users, UserCategory ve Ticket</emphasis>&quot;  adlı tabloların oluşturulması.</para>
+      <para>3.c.  Application.java, HomePage.java, HomePage.html, HeaderPanel.java, HeaderPanel.html dosyalarına sorumlu olduğu sınıflarla ilgili içeriklerin ve linklerin eklenmesi. </para>
+      <para>3.d. Sorumlu olduğu Users nesnesi için <emphasis>&quot;Users&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>3.e. Sorumlu olduğu UserCategory nesnesi için <emphasis>&quot;UsersCategory&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>3.f. Sorumlu olduğu Ticket nesnesi için <emphasis>&quot;Tickets&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para><emphasis>4. İSMAİL CEM BAKIR</emphasis></para>
+      <para>4.a. Veritabanı tasarımı</para>
+      <para>4.b. Sorumlu olduğu 3 nesne için veritabanında <emphasis>&quot;InHistory, TypeInHistory ve Venue</emphasis>&quot;  adlı tabloların oluşturulması.</para>
+      <para>4.c.  Application.java, HomePage.java, HomePage.html, HeaderPanel.java, HeaderPanel.html dosyalarına sorumlu olduğu sınıflarla ilgili içeriklerin ve linklerin eklenmesi. </para>
+      <para>4.d. Sorumlu olduğu InHistory nesnesi için <emphasis>&quot;InHistory&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>4.e. Sorumlu olduğu TypeInHistory nesnesi için <emphasis>&quot;TypeInHistory&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>4.f. Sorumlu olduğu Venue nesnesi için <emphasis>&quot;Venues&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para><emphasis>5. ANIL KOCABIYIK</emphasis></para>
+      <para>5.a. Veritabanı tasarımı</para>
+      <para>5.b. Sorumlu olduğu 3 nesne için veritabanında <emphasis>&quot;City, News ve TypeNews</emphasis>&quot;  adlı tabloların oluşturulması.</para>
+      <para>5.c.  Application.java, HomePage.java, HomePage.html, HeaderPanel.java, HeaderPanel.html dosyalarına sorumlu olduğu sınıflarla ilgili içeriklerin ve linklerin eklenmesi. </para>
+      <para>5.d. Sorumlu olduğu City nesnesi için <emphasis>&quot;Cities&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>5.e. Sorumlu olduğu News nesnesi için <emphasis>&quot;News&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+      <para>5.f. Sorumlu olduğu TypeNews nesnesi için <emphasis>&quot;TypeNews&quot; </emphasis> paketinin oluşturulması, içindeki html ve java dosyalarının kodlarının yazılması.</para>
+    </section>
+  </chapter>
+  <chapter>
+    <title>Kurulum</title>
+    <para>Projenin kodları ve projede kullanılmış diğer dökümanların içeren proje ile aynı adlı klasör (BiletAl) Apache Framework yüklü NetBeans IDE&apos;nin &quot;Open Project&quot; menüsü  kullanılarak açılır.</para>
+    <para>Açılan projeye daha öncesinden özellikler kısmına kütüphane olarak <emphasis>sqlite-jdbc-3.7.2.jar </emphasis> dosyası eklenmiştir.</para>
+    <para>SQLite sunucusuna  ve kullanılan bilgisayarın kullanıcı dosya dizininde (Ubuntu için /home/burak/ gibi) bulunan &quot;bilet.db&quot; adlı veritabanı dosyasına bağlanmamızı sağlayan kod bloğu Application.java dosyası içerisindedir.</para>
+    <para>Application.java dosyası içerisinde çağırılan kod bloğu şu şekildedir;</para>
+    <programlisting language="C++">public Application() throws SQLException {
+        
+        try {
+            Class.forName(&quot;org.sqlite.JDBC&quot;);
+        } catch (ClassNotFoundException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+
+        try {
+            String homeDir = System.getProperty(&quot;user.home&quot;);
+            String dbFileName = homeDir + File.separator + &quot;bilet.db&quot;;
+            String jdbcURL = &quot;jdbc:sqlite:&quot; + dbFileName;
+            this.db = DriverManager.getConnection(jdbcURL);
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+   ...
+}</programlisting>
+    <para>Gösterilen kod bloğu içerisindeki ilk try-catch bloğu SQLite sunucusuna bağlanmamızı sağlar.</para>
+    <para>İkinci try-catch bloğu ile içerisinde tablolarımız bulunan &quot;bilet.db&quot; veritabanı dosyasına bağlanır. Ve böylelikle program çalıştırılmaya hazır olur.</para>
+    <para>Eğer projenin çalıştırıldığı bilgisayarda kullanıcı dosya dizininde (Ubuntu için /home/burak gibi)  &quot;bilet.db&quot; adlı veritabanı dosyası yok ise; proje çalıştırıldıktan sonra &quot;bilet.db&quot; adlı veritabanı dosyası, içinde tablo içermeden, kullanıcı dosya dizininde oluşturulur.</para>
+    <para>Herhangi bir SQLite yönetim programı ile  &quot;bilet.db&quot; adlı veritabanı dosyası açılarak gerekli tablolar oluşturulur. Biz Mozilla Firefox eklentisi olan ve kolayca yüklenilip çalıştırılabilen, SQLite Manager programını kullandık.</para>
+    <para>Tabloların oluşturulması için gerekli SQL kodları aşağıdaki gibidir;</para>
+    <programlisting language="SQL">CREATE TABLE announcement(
+  id INTEGER NOT PRIMARY KEY,
+  title VARCHAR(80),
+author VARCHAR(80), 
+ sum VARCHAR(255),
+ content VARCHAR(255),
+   image BLOB
+);
+
+CREATE TABLE comment(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  title VARCHAR(100),
+  sum VARCHAR(255),
+  author VARCHAR(100),
+  anno_id INTEGER NOT NULL,
+FOREIGN KEY (anno_id) REFERENCES announcement(id)
+);
+
+CREATE TABLE user_category(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+CREATE TABLE users(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  name VARCHAR(100),
+  birth VARCHAR(20),
+  email VARCHAR(100),
+  password VARCHAR(100),
+  category_id INTEGER NOT NULL, 
+  FOREIGN KEY (category_id) REFERENCES user_category(id)
+);
+
+CREATE TABLE card(
+  id INTEGER NOT NULL PRIMARY KEY,
+  no VARCHAR(100), 
+ password VARCHAR(100),
+user_id INTEGER NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE city(
+    id INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR(100),
+    maplink VARCHAR(255),
+    image BLOB
+);
+
+CREATE TABLE group_venue(
+    id INTEGER NOT NULL PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE venue(
+    id INTEGER NOT NULL  PRIMARY KEY,
+    name VARCHAR(100),
+    address VARCHAR(255),
+    description VARCHAR(255),
+    maplink VARCHAR(255),
+    group_id INTEGER NOT NULL,
+    city_id INTEGER NOT NULL,
+   image BLOB,
+    FOREIGN KEY (city_id) REFERENCES city(id),
+    FOREIGN KEY (group_id) REFERENCES group_venue(id)
+);
+
+CREATE TABLE group_category(
+    id INTEGER NOT NULL  PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE event_category(
+    id INTEGER NOT NULL  PRIMARY KEY,
+    name VARCHAR(100),
+    group_id INTEGER NOT NULL,
+    FOREIGN KEY (group_id) REFERENCES group_category(id)
+);
+
+CREATE TABLE event(
+    id INTEGER NOT NULL  PRIMARY KEY,
+    title VARCHAR(100),
+    date VARCHAR(20),
+    time TIME,
+    description VARCHAR(255),
+    category_id INTEGER NOT NULL,
+    venue_id INTEGER NOT NULL,
+    price INTEGER,
+    quato INTEGER,
+    image BLOB,
+    reached INTEGER DEFAULT 0,
+    FOREIGN KEY (category_id) REFERENCES event_category(id),
+    FOREIGN KEY (venue_id) REFERENCES venue(id)
+);
+
+CREATE TABLE ticket(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  event_id  INTEGER NOT NULL, 
+  user_id  INTEGER NOT NULL,
+ item INTEGER NOT NULL,
+ FOREIGN KEY (event_id) REFERENCES event(id),
+ FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE typeinhistory(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  name VARCHAR(80)
+);
+
+CREATE TABLE inhistory(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  title VARCHAR(100),
+  description VARCHAR(255),
+ date VARCHAR(10),
+  yr VARCHAR(10),
+  image BLOB,
+  type_id INTEGER NOT NULL,
+ FOREIGN KEY (type_id) REFERENCES typeinhistory(id)
+);
+
+CREATE TABLE typenews(
+  id INTEGER NOT NULL PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+CREATE TABLE news(
+  id INTEGER NOT NULL PRIMARY KEY,
+  title VARCHAR(80), 
+ sum VARCHAR(255),
+ content VARCHAR(255),
+ date VARCHAR(20),
+author VARCHAR(80),
+   image BLOB, 
+ type_id INTEGER NOT NULL,
+FOREIGN KEY (type_id) REFERENCES typenews(id)
+)</programlisting>
+  </chapter>
+  <chapter>
+    <title>Kullanım Kılavuzu</title>
+    <para>Not: Hazırlanmış olan raporun Kullanım Kılavuzu kısmında kendi sorumlu olduğum nesnelere ve sayfalara ağırlık vereceğim. HomePage, HeaderPanel, Events, CategoryEvents, GroupCategories, Cards bunların en önemlileridir. </para>
+    <para>Online Bilet Satın Alma Servisi, &quot;BiletAl&quot; projesinin kullanılmasını ve işlemesini sağlayan sayfa, panel ve formlar aşağıdaki bölümlerden oluşmaktadır.</para>
+    <para><emphasis>AnaSayfa: </emphasis>Her tipten kullanıcının gezinebileceği bir sayfadır. Sol üst tarafta üye olunabilecek ve üye girişi yapılabilecek &quot;Sign Up-Log In&quot; formu, orta üstte sadece yöneticilerin görebildiği &quot;Admin Panel&quot;, sağ üstte yönetici ve organizatörlerin görebildiği &quot;Organizer Panel&quot; bulunmaktadır. Bu form ve panellerin hemen altında etkinlik, mekan, kategoriler gibi site içeriğine dahil herşeyin listelenebileceği sayfalara link taşıyan &quot;Header Panel&quot; bulunmaktadır. &quot;Header Panel&quot; bloğunun altında anasayfanın gövdesi bulunmaktadır. Bu gövdede kategori, mekan ve şehirlere göre etkinlik araması yapan, bulduğu etkinlikleri listeleyen bir arama formu bulunmaktadır. Bu formun hemen sağında tarihte bugün adlı bir köşe vardır ve içeriği listelenmektedir. Bu iki formun altında önemli duyurular bulunmaktadır.  </para>
+    <figure>
+      <title>AnaSayfada Ziyaretçi tipinden kullanıcı için bir görüntü</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="anasayfaout.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Sign Up-Log In </emphasis>Form: Bilindiği üzere sistemimizde 4 tip kullanıcı vardır. Ziyaretçi için bu formda kayıt için bir link, log in için şifrenin ve kullanıcı adının yazıldığı bölümler bulunur. Diğer 3 kullanıcı tipi için log in olunduktan sonra kredi kartlarının listelendiği ve yeni kredi kartı oluşturulabilen MyCardPage için yine bu formda &quot;MyCard Page&quot; linki bulunur. Bu linkin kurucu fonksiyonu &quot;session&quot; çağrısı içindeki userId&apos;ye göre kişiye ait kredi kartlarını gösterecek şekilde çağrılır.</para>
+    <figure>
+      <title>Sign Up-Log In Formun Ziyaretçi için görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="20" fileref="signUpF.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Sign Up-Log In Formun Ziyaretçi dışındaki üyeler için görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="20" fileref="signUpT.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Admin Panel: </emphasis>AnaSayfa içerisinde görüntülenen, fakat HeaderPanele ait bu panel, uygun session userGroupId sorguları ve Wicket companentleri ile ancak yönetici tipinden bir kullanıcı log in olduğunda görülmektedir. Aksi takdirde boş görünmektedir. </para>
+    <figure>
+      <title>Admin Panelin Ziyaretçi için görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="adminF.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Organizer Panel: </emphasis>AnaSayfa içerisinde görüntülenen, fakat HeaderPanele ait bu panel, uygun session userGroupId sorguları ve Wicket companentleri ile ancak yönetici ve organizatör tipinden bir kullanıcı log in olduğunda görülmektedir. Aksi takdirde boş görünmektedir. Bu paneldeki linkler sayesinde kullanıcı siteye etkinlik, mekan, şehir, kategori, haber, duyuru gibi içerikleri eklyebilir.</para>
+    <figure>
+      <title>Organizer Panelin Ziyaretçi için görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="organizerF.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Admin ve Organizer Panelin Yönetici üyeler için görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="adminT.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Header Panel: </emphasis>AnaSayfa içerisinde görüntülenen bu panelde, etkinlik, mekan, kategoriler, haberler, tarihte yaşananlar gibi site içeriğine dahil olan herşeyin listelenebileceği sayfaların linkleri bulunmaktadır. Ayrıca bu linklerin üzerine gelindiğinde bunların tümünün tipleri için alt tablar açılmaktadır.</para>
+    <figure>
+      <title>Header Panel görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="header.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Header Panelde alt tabların görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="header2.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Header Panelde alt tabların görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="header3.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Header Panelde alt tabların görünümü </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="header4.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Bu girişle beraber detaylı bir kullanım için devam edelim. Bunun için AnaSayfa üzerinde devam edelim.</para>
+    <para> &quot;Header Panel&quot; bloğunun altında anasayfanın gövdesi bulunmaktadır. Bu gövdede kategori, mekan ve şehirlere göre etkinlik araması yapan, bulduğu etkinlikleri listeleyen bir arama formu bulunmaktadır. Bu formun hemen sağında tarihte bugün adlı bir köşe vardır ve içeriği listelenmektedir. Bu iki formun altında önemli duyurular bulunmaktadır. </para>
+    <figure>
+      <title>AnaSayfada arama motoru, duyurular ve tarihte bugün köşesi </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="welcome.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para>Arama motoru kullanıcı tipi sınırlaması olmaksızın, kategori, şehir, ve mekana göre etkinlileri arayıp listeleyen kullanışlı bir formdur. Gelen etkinlik listesinde etkinliklere dair bilgiler ( mekan, tarih, kontenjan, fiyat gibi) mevcuttur. Bilet satın alma, daha detaylı görüntüleme ya da güncelleme işlemi için listelenen elemanların &quot;title&quot; kısmında mevcut olan linki tıklamak gerekmektedir. Bununla beraber etkinliği detaylı görüntülediğimizde yapılan kullanıcı girişinin tipi göre &quot;edit&quot; ve &quot;buy&quot; linkleri açılır. Bilindiği üzere sadece yönetici güncelleme yetkisine sahipken, ziyaretçi dışındaki kullanıcı tiplerinin tamamı bilet satın alabilmektedir.</para>
+    <figure>
+      <title>Arama motorunda kategoriye göre etkinlik arama </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="kategori.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Arama motorunda şehire göre etkinlik arama </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="sehir.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Arama motorunda kategoriye göre etkinlik arama sonucu </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="kategori2.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Etkinlikler: </emphasis>Etkinlikler sayfası arama motoru haricinde de görüntülenebilir. HeaderPanel&apos;de Events adlı linkle etkinlikleri görüntüleyebiliriz. Tüm kullanıcılar için bu sayfa görüntülenebilmektedir.Açılan sayfada, etkinlikler bilgileri ile beraber düzenli bir biçimde görüntülenebilir. Ayrıca yönetici girişi yapılmışsa bu etkinliklerden &quot;checkbox&quot; ile seçilenler silinebilir. Yönetici girişi yapılmamışsa silinemez. Ayrıca etkinlikler için &quot;title&quot; üzerinde olan linkle beraber &quot;EventDisplayPage&quot; sayfasına yönlendirilir. Bu sayfada etkinlik detayları yer alır. Eğer ziyaretçi dışındaki kullanıcı tipleri ile giriş yapılmışsa &quot;buy&quot; linki açıktır. Etkinlik için her bilet alışta bir adet bilet satın alınabilir. Etkinliğin belli sayıda kontenjanı vardır ve ayrı bir veri olarak o ana kadar satın alınan bilet sayısı tutulur. Kontenjan dolumu bu şekilde gösterilir. Kontenjan dolmuşsa bilet satın alınamaz. Kullanıcı tipi yönetici ise etkinlik için &quot;edit&quot; linki de açılır. Böylelikle etkinlikler güncellenebilir. Etkinlikler listesinin hemen altında &quot;Ajax&quot; ile tasarlanmış bir arama formu vardır. Burada yazılan katarları içeren etkinlikler hemen bu form altında görünür. Üzerine tıklandığında form içine yazılır. Altındaki &quot;show&quot; linki ile bu etkinliğin sayfası açılır. Organizatör ve yönetici tipinden kullanıcılar  etkinlik eklemek için <emphasis>Organizer Panel&apos; </emphasis>de bulunan &quot;add event&quot; butonunu kullanırlar. Açılan sayfada etkinlik eklenir.</para>
+    <para>Etkinlikler için ekran görüntüleri aşağıdaki gibidir;</para>
+    <figure>
+      <title>Etkinlik listeleme sayfası </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="50" fileref="eventlist1.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Etkinlik listeleme sayfasında etkinlik silme </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="50" fileref="eventDelete1.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Etkinlik listesinde EventDisplayPage linki </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="eventDisplayLink.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için EventDisplayPage 1 </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="50" fileref="eventEditLink.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için EventDisplayPage 2 </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="50" fileref="eventDisplayAdmin.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Ziyaretçi için EventDisplayPage </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="50" fileref="eventdisplayziyaretci.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için EventEditPage </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="eventEdit.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Etkinlikler sayfasında Ajax kullanılarak hazırlanan arama formu </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="eventAjaxSearch.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Arama formunda etkinlik show linki </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="eventAjaxShow.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Etkinlik ekleme butonu (add Event) </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="eventadd1.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Etkinlik ekleme sayfası </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="eventadd2.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Kategoriler: </emphasis>HeaderPanel&apos;de &quot;Categories of Event&quot; adlı linkle kategorileri görüntüleyebiliriz. Tüm kullanıcılar için bu sayfa görüntülenebilmektedir.Açılan sayfada, kategoriler bilgileri ile beraber düzenli bir biçimde görüntülenebilir. Ayrıca yönetici girişi yapılmışsa bu kategorilerden &quot;checkbox&quot; ile seçilenler silinebilir. Yönetici girişi yapılmamışsa silinemez. Ayrıca kategoriler için &quot;name&quot; üzerinde olan linkle beraber &quot;CategoryDisplayPage&quot; sayfasına yönlendirilir. Bu sayfada kategori detayları yer alır. Kullanıcı tipi yönetici ise kategoriler için &quot;edit&quot; linki de açılır. Böylelikle kategoriler güncellenebilir. Organizatör ve yönetici tipinden kullanıcılar kategori eklemek için <emphasis>Organizer Panel&apos; </emphasis>de bulunan &quot;add category of event&quot; butonunu kullanırlar. Açılan sayfa Ajaxla oluşturulmuş bir Modal Window sayfasıdır. Bu pencere içerisinde kategori eklenir.</para>
+    <para>Kategoriler için ekran görüntüleri aşağıdaki gibidir;</para>
+    <figure>
+      <title>Kategori listeleme sayfası </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="catList.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Kategori listeleme sayfasında yönetici için silme işlemi </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="catDelete.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Kategori listeleme sayfasında CategoryDisplayePage için link</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="catDisplayLink.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Ziyaretçi için CategoryDisplayePage sayfası</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="catDisplayF.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için CategoryDisplayePage sayfasında güncelleme linki</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="catEditLink.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için CategoryEditPage sayfası</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="catEditPage.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici ve Organizatör için kategori ekleme penceresi</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="addCat.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Üst Kategoriler: </emphasis> Üst kategorinin anlaşılması için bir örnek verelim. Örneğin; Fenerbahçe ile Beşiktaş Futbol Kulüpleri arasında oynanan bir karşılaşma etkinliğimiz olsun. Bu etkinliğin kategorisi futboldur. Futbol, basketbol ve voleybol gibi kategorilerin  üst kategorisi spordur. </para>
+    <para>Üst Kategori listesi HeaderPanel&apos;de &quot;Groups of Category&quot; adlı linkle  görüntülenebilir. Tüm kullanıcılar için bu sayfa görüntülenebilmektedir.Açılan sayfada, üst kategoriler düzenli bir biçimde görüntülenebilir. Ayrıca yönetici girişi yapılmışsa bu üst kategorilerden &quot;checkbox&quot; ile seçilenler silinebilir. Yönetici girişi yapılmamışsa silinemez. Ayrıca üst kategoriler için &quot;name&quot; üzerinde olan linkle beraber &quot;GroupDisplayPage&quot; sayfasına yönlendirilir. Bu sayfada üst kategori detayları yer alır. Kullanıcı tipi yönetici ise üst kategoriler için &quot;edit&quot; linki de açılır. Böylelikle üst kategoriler güncellenebilir. Organizatör ve yönetici tipinden kullanıcılar üst kategori eklemek için <emphasis>Organizer Panel&apos; </emphasis>de bulunan &quot;add group of category&quot; butonunu kullanırlar. Açılan sayfa Ajaxla oluşturulmuş bir Modal Window sayfasıdır. Bu pencere içerisinde üst kategori eklenir.</para>
+    <para>Üst Kategoriler için ekran görüntüleri aşağıdaki gibidir;</para>
+    <figure>
+      <title>Üst kategori listeleme sayfası </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="groupList.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Üst kategori listeleme sayfasında yönetici için silme işlemi </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="groupDelete.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Üst kategori listeleme sayfasında GroupDisplayePage için link</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="groupDisplayLink.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Ziyaretçi için GroupDisplayePage sayfası</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="groupDisplayF.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için GroupDisplayePage sayfasında güncelleme linki</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="groupDisplayT.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici için GroupEditPage sayfası</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="groupEditPage.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Yönetici ve Organizatör için üst kategori ekleme penceresi</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="addGroup.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <para><emphasis>Kredi kartları: </emphasis> Kredi kartı 3 üye tipi için hazırlanmıştır. Bunlar bilet satın alabilen üye, organizatör, yöneticidir. Bu kullanıcılar kendilerine ait kredi kartları ekleyebilir, güncelleyebilir ve silebilirler. </para>
+    <para>Kişiye ait kredi kartları listesi Sign Up-Log In formda &quot;MyCardsPage&quot; adlı linkle  görüntülenebilir.  Açılan sayfada, kredi kartları düzenli bir biçimde görüntülenebilir. Ayrıca kredi kartlarından &quot;checkbox&quot; ile seçilenler silinebilir. Ayrıca üst kategoriler için &quot;number&quot; üzerinde olan linkle beraber &quot;CardDisplayPage&quot; sayfasına yönlendirilir. Bu sayfada  kredi kartlarının detayları yer alır. Kredi kartları için &quot;edit&quot; linki de açılır. Böylelikle kredi kartları güncellenebilir. Kredi kartı eklemek için <emphasis>MyCardsPage&apos; </emphasis>de bulunan &quot;add card&quot; butonunu kullanılır. Açılan sayfa Ajaxla oluşturulmuş bir Modal Window sayfasıdır. Bu pencere içerisinde kredi kartı eklenir.</para>
+    <para>Kredi kartları için ekran görüntüleri aşağıdaki gibidir;</para>
+    <figure>
+      <title>Kişiye ait kredi kartlarının listelendiği sayfa </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="cardList.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Kişiye ait kredi kartlarını silme işlemi </title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="cardDelete.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Kredi Kartı bilgilerini içeren sayfa</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="cardDisplay.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Kredi kartı güncelleme sayfası</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="cardEditPage.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+    <figure>
+      <title>Kredi kartı ekleme penceresi</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata scale="30" fileref="addModalCard.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </chapter>
+  <chapter>
+    <title>Teknik Kılavuz</title>
+    <section>
+      <title>Veritabanı Tasarımı</title>
+      <para>Not: Veritabanı tasarımında sadece benim sorumlu olduğum tablolar anlatılacaktır. Bunlar &quot;Event, CategoryEvent, GroupCategory ve Card&quot; tablolarıdır.</para>
+      <figure>
+        <title>Veritabanı varlık-ilişki diyagramı</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata scale="90" fileref="veritabani.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para><emphasis>Event tablosu: </emphasis> Event tablosunu oluşturan SQL kodu;</para>
+      <programlisting language="SQL">CREATE TABLE event(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  title VARCHAR(100),
+  date VARCHAR(20),
+  time TIME,
+  description VARCHAR(255),
+  category_id INTEGER NOT NULL,
+  venue_id INTEGER NOT NULL,
+  price INTEGER,
+  quato INTEGER,
+  image BLOB,
+  reached INTEGER DEFAULT 0,
+  FOREIGN KEY (category_id) REFERENCES event_category(id),
+  FOREIGN KEY (venue_id) REFERENCES venue(id)
+ )</programlisting>
+      <para>Event tablosu sistemimizde yer alan etkinlikleri belirlemek için tasarlanmıştır. Birincil anahtarı id&apos;dir. İsmi title, tarihi date, saati time, içeriği description, kategori türü category_id, mekanı venue_id, bilet fiyatı price, kontenjan quato, satın alınmış bilet sayısı reached ile tanımlanmıştır. &quot;category_id&quot; CategoryEvent tablosuna; &quot;venue_id&quot; ise Venue tablosuna dış anahtarla bağlanmıştır. Böylelikle mekanı ya da kategorisi silinen etkinlik tabloda tutulmaya devam edilecektir.</para>
+      <para><emphasis>CategoryEvent tablosu: </emphasis> CategoryEvent tablosunu oluşturan SQL kodu;</para>
+      <programlisting language="SQL">CREATE TABLE event_category(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  name VARCHAR(100),
+  group_id INTEGER NOT NULL,
+  FOREIGN KEY (group_id) REFERENCES group_category(id)
+ )</programlisting>
+      <para>CategoryEvent tablosu sistemimizde yer alan etkinlik kategorilerini belirlemek için tasarlanmıştır. Birincil anahtarı id&apos;dir. İsmi name, üst kategori türü group_id ile tanımlanmıştır. &quot;group_id&quot; GroupCategory tablosuna dış anahtarla bağlanmıştır. Böylelikle üst kategorisi silinen kategori tabloda tutulmaya devam edilecektir.</para>
+      <para><emphasis>GroupCategory tablosu: </emphasis> GroupCategory tablosunu oluşturan SQL kodu;</para>
+      <programlisting language="SQL">CREATE TABLE group_category(
+  id INTEGER NOT NULL  PRIMARY KEY,
+  name VARCHAR(100)
+ )</programlisting>
+      <para>GroupCategory tablosu sistemimizde yer alan üst kategorileri belirlemek için tasarlanmıştır. Birincil anahtarı id&apos;dir. İsmi name ile tanımlanmıştır.</para>
+      <para><emphasis>Card tablosu: </emphasis>  Card tablosunu oluşturan SQL kodu;</para>
+      <programlisting language="SQL">CREATE TABLE card(
+  id INTEGER NOT NULL PRIMARY KEY,
+  no VARCHAR(100), 
+  password VARCHAR(100),
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+ )</programlisting>
+      <para>Card tablosu sistemimizde yer alan kredi kartlarını belirlemek için tasarlanmıştır. Birincil anahtarı id&apos;dir. Kart numarası no, şifresi password, kime ait olduğu user_id ile tanımlanmıştır. &quot;user_id&quot; Users tablosuna dış anahtarla bağlanmıştır. Böylelikle MyCardsPage sayfasında kişiye ait kredi kartları görüntülenebilmektedir.</para>
+      <para>Veritabanı tablolarını varlık-ilişki bakımında incelediğimizde ; Event ve CategoryEvent tablolarında n&apos;den 1&apos;e ilişki görülür. CategoryEvent ve GroupCategory tablolarında n&apos;den 1&apos;e ilişki görülür. User ve Card tablolarında 1&apos;den n&apos;e ilişki görülür. </para>
+    </section>
+    <section>
+      <title>Yazılım Tasarımı</title>
+      <para>Projede yazdığım kodlar:</para>
+      <para>1. Application.java
+</para>
+      <para>2. BasePage.java
+</para>
+      <para>3. HomePage.java
+</para>
+      <para>4. HomePage.html
+</para>
+      <para>5. HeaderPanel.java
+</para>
+      <para>6. HeaderPanel.html
+</para>
+      <para>7. Cards, Events, CategoryEvents, GroupCategories, Search package içerisindeki java ve html dosyaları</para>
+      <para>Yazılan Kodların İçerikleri</para>
+      <para><emphasis>1. Application.java </emphasis></para>
+      <para>Bu kod en temelinde SQLite sunucusuna ve veritabanı dosyasına bağlanma işlevi görünüyor. Buna Kurulum kısmında detaylı olarak değindiğimiz için tekrar girmiyorum. </para>
+      <para>Bu dosya içerisinde sistemimizde içerik olarak yer alan etkinlik, kullanıcı, kredi kartı gibi verileri veritabanından gerekli SQL sorguları ile çeken &quot;Collection&quot; nesneleri tanımlanmıştır. Böylelikle sistemimizde yer alan içerikleri herhangi bir işlem için kullanmak istediğimizde Application.java dosyasına gerekli kurucu fonksiyon ile çağrı yaparız. Ayrıca &quot;session&quot; ve &quot;HomePage&quot; çalıştırılabilmesi içinde gerekli metodlar bu dosyaya eklenmiştir.</para>
+      <programlisting language="Java">public class Application extends WebApplication {
+    ...
+    private EventCollection eventCollection;
+    private NewsCollection newsCollection;
+    ...
+    private Connection db;
+    private String pathh;
+    
+    public Application() throws SQLException {
+        ...
+        this.eventCollection = new EventCollection(db);
+        this.cardCollection = new CardCollection(db);
+        ...
+    }
+    
+    @Override
+    public Session newSession(Request request, Response response) {
+        return new UserSession(request);
+    }
+
+    @Override
+    public Class getHomePage() {
+        return HomePage.class;
+    }
+    public EventCollection getEventCollection(){
+        return this.eventCollection;
+    }
+    ...
+   }
+}</programlisting>
+      <para><emphasis>2. BasePage.java </emphasis></para>
+      <para>Projemizdeki birçok sayfa BasePage&apos;den türetilmiştir.</para>
+      <para>Proje için hazırlanan CSS dosyası (style.css) ve HeaderPanel sayfalara BasePage&apos;den kalıtım özelliği ile iletilmektedir. Ancak unutmamak gerekir ki BasePage&apos;den türetilen sayfaların html kısmına gerekli wicket componenti eklenmeli. Aksi takdirde sayfalarımız çalışmayacaktır.</para>
+      <programlisting language="Java">public class BasePage extends WebPage {
+    public BasePage() {
+        this(null);
+    }
+    public BasePage(IModel model) {
+        super(model);
+        this.add(new StyleSheetReference(&quot;stylesheet&quot;, BasePage.class,
+            &quot;style.css&quot;));
+        this.add(new HeaderPanel(&quot;mainNavigation&quot;));
+    }
+}</programlisting>
+      <para><emphasis>3. HomePage.java </emphasis></para>
+      <para>Kullanım Kılavuzunda AnaSayfada yer alan içerikler detaylıca anlatılmıştır. Bu yüzden bunlara tekrar girilmeyecek ve kodlar açıklanacaktır. Ayrıca birbirine çok benzeyen mekan (venue), kategori (categoryEvent) ve şehir (city) için hazırlanan kod parçaları birbirinin aynıdır bu yüzden sadece venue gösterilecektir. HomePage BasePage&apos;den türetilmiş bir sayfadır.</para>
+      <para>AnaSayfada kategori, şehir ve mekana göre etkinlik arama formu benim sorumlu olduğum bölümdür.</para>
+      <para>Burada önemli iki nokta vardır. Birincisi dış anahtarın değerini değil içeriğini ekranda göstermek için DropDownChoice kullanılmıştır. İkincisi veritabanından verileri çekebilmek için Application türünden nesne yaratılmış ve gerekli metodları çağrılmıştır.</para>
+      <programlisting language="Java">public class HomePage extends BasePage {
+    private DropDownChoice venueDropDownChoice;
+    private Venue venue;
+    private Form selectVenueForm;
+    private List &lt;Venue&gt; venues;
+    public HomePage() {
+        Date now = new Date();
+        Label labelDateTime = new Label(&quot;datetime&quot;, now.toString());
+        this.add(labelDateTime);
+        
+        Application app = (Application) this.getApplication();
+        final VenueCollection venueCollection = app.getVenueCollection();
+        venues = venueCollection.getVenues();
+
+        ...
+        
+       selectVenueForm = new Form(&quot;select_venue&quot;);
+        
+        venueDropDownChoice = new DropDownChoice(&quot;for_venue&quot;, 
+                new Model(&quot;&quot;), venues, new IChoiceRenderer() {
+
+            @Override
+            public Object getDisplayValue(Object object) {
+                return ((Venue) object).getName();
+            }
+            @Override
+            public String getIdValue(Object object, int index) {
+                return Integer.toString(index);
+            }
+        });
+        venueDropDownChoice.setRequired(true);
+        selectVenueForm.add(venueDropDownChoice);
+        selectVenueForm.add(new Button(&quot;submit&quot;){
+
+            @Override
+            public void onSubmit(){
+               
+        Venue venue  = (Venue) venueDropDownChoice.getModelObject(); 
+        
+            this.setResponsePage(new byVenueListPage(venue.getName()));
+
+            }
+        });
+      
+      this.add(selectVenueForm);
+}   </programlisting>
+      <para><emphasis>4. HomePage.html </emphasis></para>
+      <para>BasePage&apos;den türetilen HomePage için html kodudur. İlk olarak gerekli CSS dosyası ve HeaderPanel&apos;den gelen &quot;navigation&quot; için componentler eklenmiştir.</para>
+      <para>Daha sonra HomePage.java dosyasında bulunan Wicket Componentleri için doğru hiyerarşi ile uygun HTML table ve formları eklenerek oluşturulmuştur.</para>
+      <para><emphasis>5. HeaderPanel.java </emphasis></para>
+      <para>Kullanım Kılavuzunda HeaderPanel&apos;de yer alan içerikler detaylıca anlatılmıştır. Bu yüzden bunlara tekrar girilmeyecek ve kodlar açıklanacaktır. Ayrıca birbirine çok benzeyen kod parçaları tekrarlanmayacaktır. </para>
+      <para>HeaderPanel&apos;de sistem içindeki etkinlik, mekan, haber gibi içeriklere linkler vardır. Ayrıca Sign Up-Log In Form, Admin ve Organizer Panel vardır. Benim sorumlu olduğum ve yaptığım kısım genel itibariyle &quot;Event, CategoryEvent, GroupCategory ve Card&quot; nesneleri için gerekli linkler ve gerekli panellerin &quot;session, session.getUserId ve session.getUserGroupId&quot; sorgularıyla gösterilip gösterilmemesinin ayarlanmasıdır. </para>
+      <para>Bu bölümde yazmış olduğum kod bloğu aşağıdadır. Ayrıca kullandığım Ajax kodları da bu blok içerisinde gösterilmektedir.</para>
+      <programlisting language="Java">public final class HeaderPanel extends Panel {
+    public HeaderPanel(String id) {
+        super(id);
+         UserSession session = (UserSession)getSession();
+      ...
+        Link EventListLink = new Link(&quot;list_events&quot;){
+        
+            @Override
+            public void onClick(){
+                this.setResponsePage (new EventListPage());
+            }
+        };
+        this.add(EventListLink);
+        
+      ...
+        
+ if (session.isSignedIn() &amp;&amp; session.getuserGroup()==1) {
+          
+        final ModalWindow m = new ModalWindow(&quot;modal&quot;);
+        final ModalWindow m2 = new ModalWindow(&quot;modal2&quot;);
+       ...
+        this.add(new WebMarkupContainer(&quot;UserEntry&quot;).setVisible(false));
+        ...
+        Link EventAddLink = new Link(&quot;add_event&quot;){
+        
+            @Override
+            public void onClick(){
+                Event event= new Event();
+                this.setResponsePage (new EventEditPage(event));
+            }
+        };
+        this.add(EventAddLink);
+
+         this.add(new AjaxLink(&quot;add_category_events&quot;) {
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                m.show(target);
+            }
+        });
+                   
+           this.add(m);
+        m.setPageCreator(new ModalWindow.PageCreator() {
+
+                @Override
+            public Page createPage() {
+                CategoryEvent categoryEvent= new CategoryEvent();
+                return new CategoryEventEditPage(categoryEvent,m);
+            }
+        }); 
+
+        this.add(new AjaxLink(&quot;add_group_categories&quot;) {
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                m2.show(target);
+            }
+        });
+                   
+           this.add(m2);
+        m2.setPageCreator(new ModalWindow.PageCreator() {
+
+                @Override
+            public Page createPage() {
+                GroupCategory groupCategory= new GroupCategory();
+                return new  GroupCategoryEditPage(groupCategory,m2);
+            }
+        });
+        
+else if(session.isSignedIn() &amp;&amp; session.getuserGroup()==2){
+    final ModalWindow m = new ModalWindow(&quot;modal&quot;);
+    final ModalWindow m2 = new ModalWindow(&quot;modal2&quot;);
+          
+    this.add(new WebMarkupContainer(&quot;UserEntry&quot;).setVisible(false));
+    ... 
+}
+      
+else if(session.isSignedIn() &amp;&amp; session.getuserGroup()==3){
+          
+      this.add(new WebMarkupContainer(&quot;UserEntry&quot;).setVisible(false)); 
+        
+}
+      
+else {
+        ...  
+        this.add(new LogInForm(&quot;UserEntry&quot;));
+        ...
+     }
+   }
+}                  </programlisting>
+      <para><emphasis>6. HeaderPanel.html </emphasis></para>
+      <para>HeaderPanel için html kodudur. </para>
+      <para>HeaderPanel.java dosyasında bulunan Wicket Componentleri için doğru hiyerarşi ile uygun HTML table ve formları eklenerek oluşturulmuştur.</para>
+    <para><emphasis>7.a Cards Package </emphasis></para>
+	 <para><emphasis>Card.java </emphasis></para>
+      <para>Card sınıfına ait nesnenin id, no, şifre ve kime ait olduğunun bilgisini içeren user_id'yi
+      tutan java kodlarıdır. </para>
+	  <para><emphasis>CardCollection.java </emphasis></para>
+      <para>CardCollection.java
+		Card nesnelerinin içeriğini, özelliklerini veritabanına ekleyen, nesneleri veritabanından
+		silen, veritabanında güncelleyen, ve çeşitli listeleme
+		sorgulamaları gerçekleştiren java dosyasıdır. En önemli sorgularından biri aşağıdadır.
+		Burada bilet satın alacak kişinin kendine ait kredi kartı ile mi giriş yaptığını sorguluyor:</para>
+      <programlisting language="Java">public boolean byCard(int userId,String no, String password) {
+        int count = 0;        
+		String query = "SELECT COUNT(*) AS count FROM card WHERE "
+                + "(no = '" + no + "' AND password = '" + password + "'"
+               + "AND user_id = '" + userId + "')";
+        try {
+            Statement statement = db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            count = result.getInt("count");            
+	    result.close();            
+		if (count != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+    }</programlisting>
+	
+	  <para><emphasis>CardDisplayPage (Wicket) </emphasis></para>
+      <para>CardDisplayPage.java Kredi kartlarının no, password içerikleriyle gösterilmesini sağlayan java kodlarıdır. 
+	  Buradaki edit linkine tıklanarak güncelleme yapılabilir. CardDisplayPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class CardDisplayPage extends BasePage {
+		private Card card;
+		private int userId; 
+		public CardDisplayPage(Card card) {
+			this.card = card;
+			userId = card.getUserId();
+			this.add(new Label("no", card.getNo()));
+			this.add(new Label("password", card.getPassword()));
+			Link editLink = new Link("edit_link")   {
+				@Override
+				public void onClick()   {
+					CardDisplayPage parent = (CardDisplayPage) this.getParent();
+					this.setResponsePage(new CardEditPage(parent.card, false));
+				}
+			};
+			this.add(editLink);
+		}
+}</programlisting>
+<para><emphasis>CardDisplayPageLink.java</emphasis></para>
+      <para>CardDisplayPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	  
+	  <para><emphasis>CardEditForm.java </emphasis></para>
+      <para>CardEditFormjava
+		CardEditPage içerisinde oluşturulan formdur. Kişiye ait kredi kartı eklemek ya da güncellemek için çağrılır.
+		Sınıf içerisinde tanımlanan boolean tipinden bayrak ile kontrol edilerek formun ekleme mi güncelleme mi yapılacağına karar verilir.
+		Ayrıca "session.getuserId" metodu ile kime ait olduğu eklenir. 
+		Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class CardEditForm extends Form {
+    
+    private boolean newCardFlag;
+    UserSession session = (UserSession) getSession();
+    
+    public CardEditForm(String id, Card card, boolean newCardFlag) {
+        super(id);
+
+        CompoundPropertyModel model = new CompoundPropertyModel(card);
+        this.setModel(model);      
+        this.add(new TextField("no"));  
+        this.add(new TextField("password")); 
+        this.newCardFlag = newCardFlag;
+    }
+
+    @Override
+    public void onSubmit() {
+        Card card = (Card) this.getModelObject();
+        Application app = (Application) this.getApplication();
+        CardCollection cardCollection = app.getCardCollection();
+        if (this.newCardFlag) {
+            cardCollection.addCard(card.getNo(),card.getPassword(),
+                    session.getuserId());
+        }
+        else {
+            cardCollection.updateCard(card.getId(),card.getNo(),
+                    card.getPassword(),session.getuserId());
+        } 
+        this.setResponsePage(new CardDisplayPage(card));
+    }
+}</programlisting>
+  <para><emphasis>CardEditPage (Wicket) </emphasis></para>
+      <para>CardEditPage.java Kullanıcının kendine ait kredi kartı eklemek için çağırdığı sınıfın java kodlarıdır.
+	  CardEditPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class CardEditPage extends BasePage {
+
+    public CardEditPage(Card card, final ModalWindow m) {
+
+        this.add(new CardEditForm("card_edit",card, true));
+    }
+    
+    public CardEditPage(Card card, boolean newCardFlag) {
+
+        this.add(new CardEditForm("card_edit",card, newCardFlag));
+    }
+}</programlisting>
+
+<para><emphasis>MyCardsForm.java </emphasis></para>
+      <para>MyCardsForm.java MyCardsPage içerisinde oluşturulan formdur. Kişiye ait kredi kartlarını listelemek için çağrılır.
+		Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class MyCardsForm extends Form {
+		private ... selectedCards;
+		public MyCardsForm(String id) {
+			super(id);
+			UserSession session = (UserSession) getSession();
+			...
+			List... cards = cardCollection.getMyCards(session.getuserId());
+			PropertyListView cardListView =
+				new PropertyListView("card_list", cards) {
+				@Override
+				protected void populateItem(ListItem item) {
+					...   
+				}
+			};
+			cardCheckGroup.add(cardListView);
+        }
+		@Override
+		public void onSubmit() {
+			...
+			for (Card card : this.selectedCards) {
+				cardCollection.deleteCard(card);
+            }
+		...
+		}
+	}
+	</programlisting>
+	<para><emphasis>MyCardsPage (Wicket) </emphasis></para>
+      <para>MyCardsPage.java Kullanıcının kendine ait kredi kartlarını listelemek için çağırdığı sınıfın java kodlarıdır.
+	  Bu sınıf Ajax kodu ile yazılmıştır. Sayfa Modal Window penceresi açılarak görüntülenir.
+	  MyCardsPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class MyCardsPage extends BasePage {
+		public MyCardsPage() {
+        final ModalWindow m = new ModalWindow("modal");
+        this.add(new AjaxLink("add_card") {
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                m.show(target);
+            }
+        });
+           this.add(m);
+        m.setPageCreator(new ModalWindow.PageCreator() {
+                @Override
+            public Page createPage() {
+                Card card= new Card();
+                return new CardEditPage(card,m);
+            }
+        }); 
+        MyCardsForm cardListForm = new MyCardsForm("card_list_form");
+        this.add(cardListForm);
+		}
+}</programlisting>
+	<para><emphasis>MyCardsPageLink.java</emphasis></para>
+      <para>MyCardsPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	  
+	  <para><emphasis>7.b Events Package </emphasis></para>
+	  <para><emphasis>Event.java </emphasis></para>
+      <para>Event sınıfına ait nesnenin niteliklerini tutan, çağıran getter,setter ve kurucu fonksiyonlarına sahip olan java kodlarıdır. </para>
+	  <para><emphasis>EventCollection.java </emphasis></para>
+      <para>EventCollection.java
+		Event nesnelerinin içeriğini, özelliklerini veritabanına ekleyen, nesneleri veritabanından
+		silen, veritabanında güncelleyen, ve çeşitli listeleme  
+		sorgulamaları gerçekleştiren java dosyasıdır. En önemli sorgularından biri aşağıdadır.
+		Burada seçilen kategoriye göre etkinlikler listelenmektedir:</para>
+      <programlisting language="Java">public List... getEventsbyCategory(String categoryName) {
+        List ... events = new LinkedList...();
+        try {
+            String query = "SELECT id, title, date, time, description,  "
+                    + "category_id, venue_id, price, quato FROM event WHERE"
+                    + " category_id = (Select id from event_category "
+                    + "where(name='" + categoryName + "')) ";
+            Statement statement = this.db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                int id = result.getInt("id");
+                String title = result.getString("title");
+                String time = result.getString("time");
+                String description = result.getString("description");
+                String date = result.getString("date");
+                int category = result.getInt("category_id");
+                int venue = result.getInt("venue_id");
+                int price = result.getInt("price");
+                int quato = result.getInt("quato");
+                events.add(new Event(id, title, date, time, description, 
+                        category, price, quato, venue));
+            }
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+        return events;
+    }
+	  </programlisting>
+	  <para><emphasis>EventDisplayPage (Wicket) </emphasis></para>
+      <para>EventDisplayPage.java Etkinlikleri içerikleriyle gösterilmesini sağlayan java kodlarıdır. Eğer yönetici tipi kullanıcı bu sayfayı açtıysa buradaki edit linki görünür olacak ve güncelleme yapılabilecektir. Ziyaretçi dışında herhangi bir tip kullacı da "buy" linkini görecek ve satın alabilecektir.EventDisplayPage.html dosyasında ise gerekli Wicket Componentleri ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class EventDisplayPage extends BasePage {
+		private Event event;
+		public EventDisplayPage(final Event event) {
+			this.event = event;
+			UserSession session = (UserSession)getSession();
+			final ModalWindow m = new ModalWindow("modal");
+			Application app = (Application) this.getApplication();
+			EventCollection eventCollection = app.getEventCollection();
+			CategoryEventCollection categoryEventCollection = app.getCategoryEventCollection();
+			Event new_event = eventCollection.getEvent(event.getId());
+			CategoryEvent category = categoryEventCollection.getCategoryEvent(event.getCategoryid());
+        ...
+        if (session.getuserGroup()==1){
+			...
+        }
+        else{
+           this.add(new WebMarkupContainer("edit_link").setVisible(false));     
+        }
+        if(session.isSignedIn()){
+			this.add(new AjaxLink("buy_link") {
+				...
+			});  
+        }
+        else
+         {
+             this.add(new WebMarkupContainer("buy_link").setVisible(false)); 
+             this.add(new WebMarkupContainer("modal").setVisible(false)); 
+         }
+    }
+}</programlisting>
+<para><emphasis>EventDisplayPageLink.java</emphasis></para>
+      <para>EventDisplayPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	  <para><emphasis>EventEditForm.java </emphasis></para>
+      <para>EventEditFormjava
+		EventEditPage içerisinde oluşturulan formdur. Etkinlik eklemek ya da güncellemek için çağrılır.
+		Sınıf içerisinde tanımlanan boolean tipinden bayrak ile kontrol edilerek formun ekleme mi güncelleme mi yapılacağına karar verilir.
+		Application türünden bir nesne oluşturulur kendi nitelikleri olan mekan ve katogoriler için collection çağrıları yapılır.
+		DropDownChoice kullanılarak mekan ve kategori için tutulan id'ler yerine isimleri getirilir. Ayrıca TextArea componentleri de kullanılır.
+		Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class EventEditForm extends Form {
+		...
+		public EventEditForm(String id, Event event, boolean newEventFlag) {
+			super(id);
+			Application app = (Application) this.getApplication();
+			final EventCollection eventCollection = app.getEventCollection();  
+			final CategoryEventCollection categoryCollection = app.getCategoryEventCollection();
+			categoriesEvent = categoryCollection.getCategoryEvents();
+			...
+			categoryDropDownChoice = new DropDownChoice("category_event", new Model(""), categoriesEvent, new IChoiceRenderer() {
+				...
+			});
+			categoryDropDownChoice.setRequired(true);
+			descriptionArea = new TextArea ... ("description", new Model...(""));
+			descriptionArea.setRequired(true);
+			CompoundPropertyModel model = new CompoundPropertyModel(event);
+				this.setModel(model);
+				...
+				}
+			@Override
+			public void onSubmit() {
+				...
+				if (this.newEvent) {
+					eventCollection.addEvent(event);   
+				}
+				else {
+					eventCollection.updateEvent(event); 
+				} 
+				this.setResponsePage(new EventDisplayPage(event));
+		}
+	}
+	</programlisting>
+	<para><emphasis>EventEditPage (Wicket) </emphasis></para>
+      <para>EventEditPage.java Kullanıcının etkinlik eklemek için çağırdığı sınıfın java kodlarıdır.
+	  EventEditPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class EventEditPage extends BasePage {
+		public EventEditPage(Event event) {
+			this.add(new EventEditForm("event_edit",event, true));
+		}
+		public EventEditPage(Event event, boolean newEventFlag) {
+			this.add(new EventEditForm("event_edit",event, newEventFlag));
+		}
+	}</programlisting>
+	<para><emphasis>EventListForm.java </emphasis></para>
+      <para>EventListForm.java EventListPage içerisinde oluşturulan formdur. Etkinlikleri listelemek için çağrılır.
+	  Application sınıfından nesne ve getcollection metodları kullanılır. DropDownChoice componentleri ile dış anahtar olan mekan ve kategori id'leri yerine isimleri gösterilir.
+	Ayrıca "session.getuserGroup" sorgusu ile yönetici olanlara silme onayı verilir.
+	Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class EventListForm extends Form {
+		private List... selectedEvents;
+		UserSession session = (UserSession) getSession();
+		public EventListForm(String id) {
+			super(id);
+			...
+		}
+		@Override
+		public void onSubmit() {
+			Application app = (Application) this.getApplication();
+			EventCollection eventCollection = app.getEventCollection();
+			if(session.getuserGroup()==1){
+				for (Event event : this.selectedEvents) {
+					eventCollection.deleteEvent(event);
+                }
+        }
+        this.setResponsePage(new EventListPage());
+    }
+}</programlisting>
+	<para><emphasis>EventListPage (Wicket) </emphasis></para>
+      <para>EventListPage.java Kullanıcının etkinlikleri listelemek için çağırdığı sınıfın java kodlarıdır.
+	  Bu sınıfa Ajax Arama Formu eklenmiştir. Forma yazılan katarları içeren etkinlikler listelenir. Ardından "Show" linki ile etkinliğin detaylarını gösteren sayfaya gidilir.
+	  EventListPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class EventListPage extends BasePage {
+		public EventListPage() {
+		...
+        final AutoCompleteTextField searchSpare = new AutoCompleteTextField("key",new Model ..String..("")) {
+            @Override
+            protected Iterator getChoices(String input) {
+                Application app = (Application) this.getApplication();
+                EventCollection eventCollection = app.getEventCollection();
+                if(Strings.isEmpty(input))
+                        return Collections.EMPTY_LIST.iterator();
+                    List ..String.. usernames = eventCollection.findEvent(input);
+                    List choices = new ArrayList(10);
+                    for(int i=0; i usernames.size();i++)
+                    {
+                        choices.add(usernames.get(i));
+                        if(choices.size() == 10)
+                            break;
+                    }
+                    return choices.iterator();
+            }
+        };
+        searchSpare.setOutputMarkupId(true);
+        Form..Void.. auto = new Form..Void..("autocomplete");
+        final Label result = new Label("title", searchSpare.getDefaultModel());
+        result.setOutputMarkupId(true);
+        result.setVisibilityAllowed(false);
+        auto.add(searchSpare);
+        auto.add(result);
+        searchSpare.add(new AjaxFormSubmitBehavior("onchange") {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target) {
+                target.addComponent(result);
+            }
+            @Override
+            protected void onError(AjaxRequestTarget target) {
+            }
+        });
+        this.add(auto);
+        Application app = (Application) this.getApplication();
+        EventCollection eventCollection = app.getEventCollection();
+        Event event = eventCollection.findEvent2((String)searchSpare.getModelObject());
+        EventDisplayPageLink showLink = new EventDisplayPageLink("show",event);
+        this.add(showLink);
+    }
+}</programlisting>
+	<para><emphasis>EventListPageLink.java</emphasis></para>
+      <para>EventListPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	  
+	  <para><emphasis>7.c CategoryEvents Package </emphasis></para>
+	  <para><emphasis>CategoryEvents.java </emphasis></para>
+      <para>CategoryEvent sınıfına ait nesnenin niteliklerini tutan, çağıran getter,setter ve kurucu fonksiyonlarına sahip olan java kodlarıdır. </para>
+	  <para><emphasis>CategoryEventCollection.java </emphasis></para>
+      <para>CategoryEventCollection.java
+		CategoryEvent nesnelerinin içeriğini, özelliklerini veritabanına ekleyen, nesneleri veritabanından silen, veritabanında güncelleyen
+		ve çeşitli listeleme sorgulamaları gerçekleştiren java dosyasıdır. 
+		Aşağıda verilen sorguda seçilen kategorinin tüm detayları listelenmektedir:</para>
+      <programlisting language="Java">public CategoryEvent getCategoryEvent(int Id) {
+        CategoryEvent categoryEvent =new CategoryEvent();
+        String query = "SELECT * FROM event_category WHERE "
+                + "(id = '" + Id + "')";
+        try {
+            Statement statement = db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                int id = result.getInt("id");
+                String name = result.getString("name");
+                int group_name_id = result.getInt("group_id");
+                categoryEvent = (new CategoryEvent(id, name, group_name_id));
+            }
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+        return categoryEvent;
+    }</programlisting>
+	  <para><emphasis>CategoryEventDisplayPage (Wicket) </emphasis></para>
+      <para>CategoryEventDisplayPage.java Kategorileri içerikleriyle gösterilmesini sağlayan java kodlarıdır. Eğer yönetici tipi kullanıcı bu sayfayı açtıysa buradaki edit linki görünür olacak ve güncelleme yapılabilecektir. CategoryEventDisplayPage.html dosyasında ise gerekli Wicket Componentleri ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class CategoryEventDisplayPage extends BasePage {
+    private CategoryEvent categoryEvent;
+    public CategoryEventDisplayPage(CategoryEvent categoryEvent) {
+        ...
+        if (session.getuserGroup()==1){
+            ...
+        }
+        else{
+           this.add(new WebMarkupContainer("edit_link").setVisible(false));     
+        }
+    }
+}</programlisting>
+<para><emphasis>CategoryEventDisplayPageLink.java</emphasis></para>
+      <para>CategoryEventDisplayPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	 <para><emphasis>CategoryEventEditForm.java </emphasis></para>
+      <para>CategoryEventEditFormjava CategoryEventEditPage içerisinde oluşturulan formdur. Kategori eklemek ya da güncellemek için çağrılır.
+		Sınıf içerisinde tanımlanan boolean tipinden bayrak ile kontrol edilerek formun ekleme mi güncelleme mi yapılacağına karar verilir.
+		Application türünden bir nesne oluşturulur kendi niteliği olan üst kategori için collection çağrıları yapılır.
+		DropDownChoice kullanılarak üst kategoriler için tutulan id'ler yerine isimleri getirilir. Ayrıca TextArea componentleri de kullanılır.
+		Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class CategoryEventEditForm extends Form {
+		...
+		public CategoryEventEditForm(String id, CategoryEvent categoryEvent, boolean newCategoryEventFlag) {
+			super(id);
+        Application app = (Application) this.getApplication();
+        final CategoryEventCollection categoryCollection = app.getCategoryEventCollection(); 
+        final GroupCategoryCollection groupCategoryCollection 
+                = app.getGroupCategoryCollection();
+        groupCategories = groupCategoryCollection.getGroupCategories();
+        groupCategoryDropDownChoice = new DropDownChoice("group_category", 
+                new Model(""), groupCategories, new IChoiceRenderer() {
+			...
+        });
+		groupCategoryDropDownChoice.setRequired(true);
+        CompoundPropertyModel model = new CompoundPropertyModel(categoryEvent);
+        ...
+    }
+		@Override
+		public void onSubmit() {
+			...
+        if (this.newCategoryEvent) {
+            categoryCollection.addCategoryEvent(categoryEvent);
+        }
+        else {
+            categoryCollection.updateCategoryEvent(categoryEvent);
+        } 
+        this.setResponsePage(new CategoryEventDisplayPage(categoryEvent));
+    }
+}</programlisting>
+	<para><emphasis>CategoryEventEditPage (Wicket) </emphasis></para>
+      <para>CategoryEditPage.java Kullanıcının kategori eklemek için çağırdığı sınıfın java kodlarıdır.
+	  Kurucuya Ajax Modal Window için gerekli parametreler eklenmiştir. 
+	  CategoryEventEditPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class CategoryEventEditPage extends BasePage {
+    public CategoryEventEditPage(CategoryEvent categoryEvent,  final ModalWindow m) {
+        this.add(new CategoryEventEditForm("category_event_edit",categoryEvent, true));
+    }
+    public CategoryEventEditPage(CategoryEvent categoryEvent, boolean newCategoryEventFlag) {
+        this.add(new CategoryEventEditForm("category_event_edit",categoryEvent, newCategoryEventFlag));
+    }
+}</programlisting>
+<para><emphasis>CategoryEventListForm.java </emphasis></para>
+      <para>CategoryEventListForm.java EventListPage içerisinde oluşturulan formdur. Kategorileri listelemek için çağrılır.
+	  Application sınıfından nesne ve getcollection metodları kullanılır. DropDownChoice componentleri ile dış anahtar olan üst kategori id'leri yerine isimleri gösterilir.
+	Ayrıca "session.getuserGroup" sorgusu ile yönetici olanlara silme onayı verilir.
+	Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class CategoryEventListForm extends Form {
+    ...
+    UserSession session = (UserSession) getSession();
+    public CategoryEventListForm(String id) {
+        super(id);
+        ...
+        Application app = (Application) this.getApplication();
+        CategoryEventCollection categoryCollection = app.getCategoryEventCollection();
+        final GroupCategoryCollection groupCategoryCollection = app.getGroupCategoryCollection();
+        PropertyListView categoryEventListView =
+            new PropertyListView("category_event_list", categoryEvents) {
+			...
+        };
+        categoryEventCheckGroup.add(categoryEventListView);
+    }
+    @Override
+    public void onSubmit() {
+        Application app = (Application) this.getApplication();
+        CategoryEventCollection categoryCollection = app.getCategoryEventCollection();
+        if(session.getuserGroup()==1){
+            for (CategoryEvent categoryEvent : this.selectedCategoryEvents) {
+                categoryCollection.deleteCategoryEvent(categoryEvent);
+            }
+        }
+        this.setResponsePage(new CategoryEventListPage());
+    }
+}</programlisting>
+	<para><emphasis>CategoryEventListPage (Wicket) </emphasis></para>
+      <para>CategoryEventListPage.java Kullanıcının kategorileri listelemek için çağırdığı sınıfın java kodlarıdır.
+	   CategoryEventListPage.html dosyasında ise gerekli Wicket Componentleri ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class CategoryEventListPage extends BasePage {
+    public CategoryEventListPage() {
+        CategoryEventListForm categoryEventListForm = new CategoryEventListForm("category_event_list_form");
+        this.add(categoryEventListForm);
+    }
+}</programlisting>
+<para><emphasis>CategoryEventListPageLink.java</emphasis></para>
+      <para>CategoryEventListPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	  
+	  <para><emphasis>7.d GroupCategories Package </emphasis></para>
+	  <para><emphasis>GroupCategory.java </emphasis></para>
+      <para>GroupCategory sınıfına ait nesnenin niteliklerini tutan, çağıran getter,setter ve kurucu fonksiyonlarına sahip olan java kodlarıdır. </para>
+	  <para><emphasis>CategoryEventCollection.java </emphasis></para>
+      <para>GroupCategoryCollection.java
+		GroupCategory (üst kategori) nesnelerinin içeriğini, özelliklerini veritabanına ekleyen, nesneleri veritabanından silen, veritabanında güncelleyen
+		ve çeşitli listeleme sorgulamaları gerçekleştiren java dosyasıdır. 
+		Aşağıda verilen sorguda seçilen üst kategorinin güncellenmesi yapılmaktadır:</para>
+      <programlisting language="Java">public void updateGroupCategory(int new_id, String new_name) {
+        try {
+            String query = "UPDATE group_category SET name=? "
+                    + "WHERE (id=?)";
+            PreparedStatement statement = this.db.prepareStatement(query);
+            statement.setString(1, new_name);
+            statement.setInt(2, new_id);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+    }</programlisting>
+	  <para><emphasis>GroupCategoryDisplayPage (Wicket) </emphasis></para>
+      <para>GroupCategoryDisplayPage.java Üst kategorileri içerikleriyle gösterilmesini sağlayan java kodlarıdır. Eğer yönetici tipi kullanıcı bu sayfayı açtıysa buradaki edit linki görünür olacak ve güncelleme yapılabilecektir. GroupCategoryDisplayPage.html dosyasında ise gerekli Wicket Componentleri ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class GroupCategoryDisplayPage extends BasePage {
+    private GroupCategory groupCategory;
+    public GroupCategoryDisplayPage(GroupCategory groupCategory) {
+        this.groupCategory = groupCategory;
+          UserSession session = (UserSession)getSession();
+		  ...
+         if (session.getuserGroup()==1){
+		 ...
+         }
+         else{
+           this.add(new WebMarkupContainer("edit_link").setVisible(false));     
+        } 
+    }
+}</programlisting>
+<para><emphasis>GroupCategoryDisplayPageLink.java</emphasis></para>
+      <para>GroupCategoryDisplayPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	 <para><emphasis>GroupCategoryEditForm.java </emphasis></para>
+      <para>GroupCategoryEditFormjava GroupCategoryEditPage içerisinde oluşturulan formdur. Üst kategori eklemek ya da güncellemek için çağrılır.
+		Sınıf içerisinde tanımlanan boolean tipinden bayrak ile kontrol edilerek formun ekleme mi güncelleme mi yapılacağına karar verilir.
+		Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class GroupCategoryEditForm extends Form {
+    private boolean newGroupCategoryFlag;
+    public GroupCategoryEditForm(String id, GroupCategory groupCategory, boolean newGroupCategoryFlag) {
+        super(id);
+		...
+    }
+    @Override
+    public void onSubmit() {
+	..
+        if (this.newGroupCategoryFlag) {
+            groupCategoryCollection.addGroupCategory(groupCategory.getName());
+        }
+        else {
+            groupCategoryCollection.updateGroupCategory(groupCategory.getId(),groupCategory.getName());
+        } 
+        this.setResponsePage(new GroupCategoryDisplayPage(groupCategory));
+    }
+}</programlisting>
+<para><emphasis>GroupCategoryEditPage (Wicket) </emphasis></para>
+      <para>GroupCategoryEditPage.java Kullanıcının üst kategori eklemek için çağırdığı sınıfın java kodlarıdır.
+	  Kurucuya Ajax Modal Window için gerekli parametreler eklenmiştir. 
+	  GroupCategoryEditPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class GroupCategoryEditPage extends BasePage {
+    public GroupCategoryEditPage(GroupCategory groupCategory, final ModalWindow m) {
+        this.add(new GroupCategoryEditForm("group_category_edit",groupCategory, true));
+    }
+    public GroupCategoryEditPage(GroupCategory groupCategory, boolean newGroupCategoryFlag) {
+        this.add(new GroupCategoryEditForm("group_category_edit",groupCategory, newGroupCategoryFlag));
+    }
+}</programlisting>  
+<para><emphasis>GroupCategoryListForm.java </emphasis></para>
+      <para>GroupCategoryListForm.java EventListPage içerisinde oluşturulan formdur. Üst kategorileri listelemek için çağrılır.
+	   Ayrıca "session.getuserGroup" sorgusu ile yönetici olanlara silme onayı verilir.
+	 Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class GroupCategoryListForm extends Form {
+    ...
+    UserSession session = (UserSession) getSession();
+    public GroupCategoryListForm(String id) {
+        super(id);
+        ...
+        }
+    @Override
+    public void onSubmit() {
+        Application app = (Application) this.getApplication();
+        GroupCategoryCollection groupCategoryCollection = app.getGroupCategoryCollection();
+        if(session.getuserGroup()==1){
+            for (GroupCategory groupCategory : this.selectedGroupCategories) {
+                groupCategoryCollection.deleteGroupCategory(groupCategory);
+            }
+        }
+        this.setResponsePage(new GroupCategoryListPage());
+    }
+}</programlisting>
+	<para><emphasis>GroupCategoryListPage (Wicket) </emphasis></para>
+      <para>GroupCategoryListPage.java Kullanıcının üst kategorileri listelemek için çağırdığı sınıfın java kodlarıdır.
+	   GroupCategoryListPage.html dosyasında ise gerekli Wicket Componentleri ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class GroupCategoryListPage extends BasePage {
+    public GroupCategoryListPage() {
+        GroupCategoryListForm groupCategoryListForm = new GroupCategoryListForm("group_category_list_form");
+        this.add(groupCategoryListForm);
+    }
+}</programlisting>
+<para><emphasis>GroupCategoryListPageLink.java</emphasis></para>
+      <para>GroupCategoryListPage sınıfının kurucu fonksiyonunu çağıran sınıfın java kodlarıdır.</para>
+	  
+	  <para><emphasis>7.e Search Package </emphasis></para>
+      <para>Kategori ile arama için EventCollection'da kullanılan sorgu:</para>
+      <programlisting language="Java">public List ..Event> getEventsbyCategory(String categoryName) {
+        List..Event> events = new LinkedList ..Event>();
+        try {
+            String query = "SELECT id, title, date, time, description,  "
+                    + "category_id, venue_id, price, quato FROM event WHERE"
+                    + " category_id = (Select id from event_category "
+                    + "where(name='" + categoryName + "')) ";
+            Statement statement = this.db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                int id = result.getInt("id");
+                String title = result.getString("title");
+                String time = result.getString("time");
+                String description = result.getString("description");
+                String date = result.getString("date");
+                int category = result.getInt("category_id");
+                int venue = result.getInt("venue_id");
+                int price = result.getInt("price");
+                int quato = result.getInt("quato");
+                events.add(new Event(id, title, date, time, description, 
+                        category, price, quato, venue));
+            }
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+        return events;
+    }</programlisting>
+	<para>Mekan ile arama için EventCollection'da kullanılan sorgu:</para>
+      <programlisting language="Java">public List ..Event> getEventsbyVenue(String venuename) {
+        List..Event> events = new LinkedList ..Event>();
+        try {
+            String query = "SELECT id, title, date, time, description,  "
+                    + "category_id, venue_id, price, quato FROM event WHERE"
+                    + " venue_id = (Select id from venue "
+                    + "where(name='" + venuename + "')) ";
+            Statement statement = this.db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                int id = result.getInt("id");
+                String title = result.getString("title");
+                String time = result.getString("time");
+                String description = result.getString("description");
+                String date = result.getString("date");
+                int category = result.getInt("category_id");
+                int venue = result.getInt("venue_id");
+                int price = result.getInt("price");
+                int quato = result.getInt("quato");
+                events.add(new Event(id, title, date, time, description, 
+                        category, price, quato, venue));
+            }
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+        return events;
+    }</programlisting>
+	<para>Şehir ile arama için EventCollection'da kullanılan sorgu:</para>
+      <programlisting language="Java">public List ..Event> getEventsbyCity(String city) {
+        List..Event> events = new LinkedList ..Event>();
+        try {
+            String query = "SELECT id, title, date, time, description,  "
+                    + "category_id, venue_id, price, quato FROM event WHERE"
+                    + " venue_id in (Select venue.id from venue,city "
+                    + "where( city.name='" + city + "') and "
+                    + "( city.id=venue.city_id) ) ";
+            Statement statement = this.db.createStatement();
+            ResultSet result = statement.executeQuery(query);
+            while (result.next()) {
+                int id = result.getInt("id");
+                String title = result.getString("title");
+                String time = result.getString("time");
+                String description = result.getString("description");
+                String date = result.getString("date");
+                int category = result.getInt("category_id");
+                int venue = result.getInt("venue_id");
+                int price = result.getInt("price");
+                int quato = result.getInt("quato");
+                events.add(new Event(id, title, date, time, description, 
+                        category, price, quato, venue));
+            }
+        } catch (SQLException ex) {
+            throw new UnsupportedOperationException(ex.getMessage());
+        }
+        return events;
+    }</programlisting>
+	<para><emphasis>byCategoryEventListForm.java </emphasis></para>
+      <para>byCategoryEventListPage içerisinde oluşturulan formdur. Kategoriye göre aranan Etkinlikleri listelemek için çağrılır.
+	  Application sınıfından nesne ve getcollection metodları kullanılır. DropDownChoice componentleri ile dış anahtar olan mekan ve kategori id'leri yerine isimleri gösterilir.
+	Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class byCategoryEventListForm extends Form {
+    public byCategoryEventListForm(String id,String categoryName) {
+        super(id);
+        Application app = (Application) this.getApplication();
+        EventCollection eventCollection = app.getEventCollection();
+        List ..Event> events = eventCollection.getEventsbyCategory(categoryName);
+        final CategoryEventCollection categoryEventCollection = app.getCategoryEventCollection();
+        final VenueCollection venueCollection = app.getVenueCollection();
+        PropertyListView eventListView =
+            new PropertyListView("event_list", events) {
+
+            @Override
+            protected void populateItem(ListItem item) {
+            ...   
+            }
+        };
+        this.add(eventListView);
+    }    
+}</programlisting>
+<para><emphasis>byCategoryEventListPage (Wicket) </emphasis></para>
+      <para>byCategoryEventListPage.java Kullanıcının kategoriye göre aradığı etkinlikleri listelemek için çağırdığı sınıfın java kodlarıdır.
+	  byCategoryEventListPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class byCategoryEventListPage extends BasePage {
+    public byCategoryEventListPage(String categoryName){
+       byCategoryEventListForm form = 
+               new byCategoryEventListForm("event_list_form",categoryName);
+      this.add(form);
+   }
+    public byCategoryEventListPage() {
+        super();
+    }
+} </programlisting>
+<para><emphasis>byCityListForm.java </emphasis></para>
+      <para>byCityListPage içerisinde oluşturulan formdur. Şehire göre aranan Etkinlikleri listelemek için çağrılır.
+	  Application sınıfından nesne ve getcollection metodları kullanılır. DropDownChoice componentleri ile dış anahtar olan mekan ve şehir id'leri yerine isimleri gösterilir.
+	Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class byCityListForm extends Form {
+    public byCityListForm(String id,String city) {
+        super(id);
+        Application app = (Application) this.getApplication();
+        EventCollection eventCollection = app.getEventCollection();
+        List..Event> events = eventCollection.getEventsbyCity(city);
+        final CategoryEventCollection categoryEventCollection = app.getCategoryEventCollection();
+        final VenueCollection venueCollection = app.getVenueCollection();
+        PropertyListView eventListView =
+            new PropertyListView("event_list", events) {
+            @Override
+            protected void populateItem(ListItem item) {
+            ...   
+                }
+        };
+        this.add(eventListView);
+    }    
+}</programlisting>
+<para><emphasis>byCityListPage (Wicket) </emphasis></para>
+      <para>byCityListPage.java Kullanıcının şehire göre aradığı etkinlikleri listelemek için çağırdığı sınıfın java kodlarıdır.
+	  byCityListPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class byCityListPage extends BasePage {
+		public byCityListPage() {
+			super();
+		}
+		public byCityListPage(String city) {
+			byCityListForm form = new byCityListForm("event_list_form",city);
+			this.add(form);
+		}
+}</programlisting>
+<para><emphasis>byVenueListForm.java </emphasis></para>
+      <para>byVenueListPage içerisinde oluşturulan formdur. Mekana göre aranan Etkinlikleri listelemek için çağrılır.
+	  Application sınıfından nesne ve getcollection metodları kullanılır. DropDownChoice componentleri ile dış anahtar olan mekan ve kategori id'leri yerine isimleri gösterilir.
+	Sınıfa ait java kodları:</para>
+      <programlisting language="Java">public class byVenueListForm extends Form {
+    public byVenueListForm(String id,String venueName) {
+        super(id);
+        Application app = (Application) this.getApplication();
+        EventCollection eventCollection = app.getEventCollection();
+        List ..Event> events = eventCollection.getEventsbyVenue(venueName);
+        final CategoryEventCollection categoryEventCollection = app.getCategoryEventCollection();
+        final VenueCollection venueCollection = app.getVenueCollection();
+        PropertyListView eventListView =
+            new PropertyListView("event_list", events) {
+            @Override
+            protected void populateItem(ListItem item) {
+            ... 
+                }
+        };
+        this.add(eventListView);
+    }    
+}</programlisting>
+<para><emphasis>byVenueListPage (Wicket) </emphasis></para>
+      <para>byVenueListPage.java Kullanıcının mekana göre aradığı etkinlikleri listelemek için çağırdığı sınıfın java kodlarıdır.
+	  byVenueListPage.html dosyasında ise gerekli Wicket Componentleri
+	  ve HTML table ve formları vardır.
+	  Örnek java kodu aşağıdadır:</para>
+      <programlisting language="Java">public final class byVenueListPage extends BasePage {
+    public byVenueListPage() {
+        super();
+    }
+    public byVenueListPage(String venueName) {
+        byVenueListForm form = new byVenueListForm("event_list_form",venueName);
+        this.add(form);
+    }
+}</programlisting>
+	</section>
+  </chapter>
+</book>
