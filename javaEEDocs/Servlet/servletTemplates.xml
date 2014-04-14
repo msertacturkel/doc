@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="java" deleted="false" description="Servlet'lerde hazir html sayfasi getirir" enabled="true" name="htmlTemplate">java.io.PrintWriter out = response.getWriter();&#13;
+out.println("&lt;html&gt;");&#13;
+out.println("&lt;head&gt;");&#13;
+out.println("&lt;title&gt;Servlet sayfasi&lt;/title&gt;");&#13;
+out.println("&lt;/head&gt;");&#13;
+out.println("&lt;body&gt;");&#13;
+out.println("Deneme");&#13;
+out.println("&lt;/body&gt;");&#13;
+out.println("&lt;/html&gt;");</template></templates>

@@ -1,0 +1,8 @@
+Servlet oluşturduktan sonra doGET in içerisine yazıp, Run on Server diyerek çalıştırıyoruz.
+
+java.io.PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		out.println("<html><body>");
+		out.println("deneme");
+		out.println();
+out.println("</body><html>");
