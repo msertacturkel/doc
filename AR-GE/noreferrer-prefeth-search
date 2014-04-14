@@ -1,0 +1,67 @@
+1.Refferer:
+Bütün browserlar http başlığı içerisinde bir referer gönderir.Http Header istek yapan kullanıcı ve istek yapılan sayfa hakkında bilgi içerir.Daha önceden ziyaret ettiğimiz bir siteye başka bir site üzerinden istek yapmamız durumunda Referer kullanılır.
+Bunun anlamı kimin nerden geldiği(hangi siteden) görülebilir. Şöyle bir senaryoda kullanılabilir.(Refferer)
+
+Bir websayfasına a login olduk ve görüntülüyoruz.Log out olmak istiyoruz ama görüntülediğimiz sayfadan ayrılmakta istemiyoruz. Çogu zaman böyle bir durumda başka bir sayfaya yönlendirme yapılır.
+Diyelim ki Log out olduk ama halen aynı sayfadayız.Bunu sağlayan ise HTTP Başlıgı içerisindeki refferer dir.Burada dikkat edilmesi gereken url aracılıgıyla herhangibir paramatre gönderilmediğidir.
+Php den bir kullanım örnegi:
+....
+(some magic things you'll never get to know)
+....
+if(@$_SERVER['HTTP_REFERER'] != '')
+header('Location: '.$_SERVER['HTTP_REFERER']);
+else
+header('Location: http://www.example.com/');
+....
+header('Location: ...'); does a 302 redirect to the specified site. The user will not notice any redirecting.
+(302 yönlendirmesi yapıldığına dikkat edelim!)
+Kullanımı pek yaygın değil çünkü mantık itibariyle zaten logout olmuş bir kullanıcının güvenli bir bölgeye yönlendirilmesi tercihtir. Ancak kullanılırsa kullanıcıya websayfası üzerinde gezerken farklı bir deneyim saglar.
+NoRefferer:
+Sayfada bir yerden linke tıklayarak başka bir yere giden kullanıcının izlenmeyeceğini söyler.Yani Http Başlıgında HttpRefferer gönderilmeyecegini belirtir.
+-Çogu browser desteklememektedir.(http://no-ref.appspot.com/ e göre.)
+-Html5 ile gelmiştir.
+
+2.Prefetch:
+
+-Html5 ile gelmiş.
+-Tüm browserlar desteklemez.
+Destekleyen browserlar ise:
+Mozilla Firefox: Supported
+Google Chrome: Supported since version 13 (Use an alternate syntax)
+Safari: Currently not supported Internet
+Explorer: Currently not supported
+Dokumanlarda hep <link rel="prefetch" href="http://www.example.com/"> şeklinde link ile kullanılmış ama w3c ye göre:
+<a rel="prefecth" href="http://www.example.com/">example</a> şeklinde kullanılabilir.
+
+-Link prefetch işlemi, bir browser mekanizmasıdır.Kullanıcının yakın zamanda ziyaret ettiği sayfaları indirip ve prefecth ederek sayfanın görüntülenmesini hızlandırabilir. 
+Bir websayfası browser a ipuclari verir ve browser dokumanı prefetch etmeye başlar ve ardından bu dökümanı kendi cacheinde depolar.Kullanıcı sayfayı tekrar istediğinde hızlıca kendi cache inden getirir.
+Sayfanın prefetch edilmesi yani hızlı yüklenmesi arama motorunca belirlenen kalite metriklerine de baglı olarak aranmada üst sırada çıkmayı sağlayabilir.
+Ne zaman kullanılabilir:
+Slayt gösterisi tarzında olan sayfalarda, örnegin sonraki 3 sayfa ve önceki 3 sayfa prefetch edilebilir.(sisteme çok bir yük getirmediğini düşünürsek)
+Siteninin bütün sayfalarında yüklenen resim varsa, bu durumda kullanılabilir.
+Bir sonraki sayfanın araması sonucunda çıkmasını istediğimiz sonuçlar varsa, bir sonraki sayfa prefect edilebilir.
+
+3.search:
+Dogru düzgün dokumantasyonu bulunmamaktadır. Var olanlar da link tagı için anlatmışlar. HTML 5 ile birlikte gelmiştir.Henüz Tüm browserlar desteklememektedir.
+Ana felsefesi;
+Bi dokumana referans eder ve bu dokuman aracılıgıyla, dokuman ve ilişkili dokumanlar arasındaki "arama işlemi" için bir arayüz sağlamaktır.(standart) OpenSearch dokumana referans etmekte fayda vardır.(http://www.opensearch.org/Home) Bu dokumana bakarak, browser girilen bir anahtar kelime ile arama yapıldığında, URL in hangi yapıya dönüştürmesi gerektiğini bilinebilir.
+Örnek kullanımı:
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+   <head profile="http://a9.com/-/spec/opensearch/1.1/">
+     <!--- ... --->
+     <link rel="search"
+           type="application/opensearchdescription+xml"
+           href="http://example.com/content-search.xml"
+           title="Content search" />
+     <link rel="search"
+           type="application/opensearchdescription+xml"
+           href="http://example.com/comment-search.xml"
+           title="Comments search" />
+     <!--- ... --->
+   </head>
+   <body>
+     <!--- ... --->
+   </body>
+ </html>
+ 

@@ -1,0 +1,8 @@
+http://stackoverflow.com/questions/14788345/how-to-install-jdk-on-ubuntulinux
+
+sudo apt-get install openjdk-6-jdk
+apt-cache search jdk
+export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
+export PATH=$PATH:/usr/lib/jvm/java-6-openjdk/bin
+
+
